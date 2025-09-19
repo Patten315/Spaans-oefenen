@@ -1,5 +1,4 @@
 import streamlit as st
-import random
 
 # -------------------------------
 # Woordenlijsten per niveau/blok
@@ -8,26 +7,26 @@ import random
 woordenlijsten = {
     "Niveau 1": {
         "Blok 1": {
-            "Hola": "Hallo",
-            "Adiós": "Tot ziens",
-            "Gracias": "Dank je",
-            "Por favor": "Alsjeblieft",
-            "Sí": "Ja",
-            "No": "Nee",
-            "Casa": "Huis",
-            "Escuela": "School",
-            "Comida": "Eten",
-            "Agua": "Water",
-            "Amigo": "Vriend",
-            "Familia": "Familie",
-            "Trabajo": "Werk",
-            "Libro": "Boek",
-            "Perro": "Hond",
-            "Gato": "Kat",
-            "Coche": "Auto",
-            "Ciudad": "Stad",
-            "País": "Land",
-            "Música": "Muziek"
+            "Hallo": "Hola",
+            "Tot ziens": "Adiós",
+            "Dank je": "Gracias",
+            "Alsjeblieft": "Por favor",
+            "Ja": "Sí",
+            "Nee": "No",
+            "Huis": "Casa",
+            "School": "Escuela",
+            "Eten": "Comida",
+            "Water": "Agua",
+            "Vriend": "Amigo",
+            "Familie": "Familia",
+            "Werk": "Trabajo",
+            "Boek": "Libro",
+            "Hond": "Perro",
+            "Kat": "Gato",
+            "Auto": "Coche",
+            "Stad": "Ciudad",
+            "Land": "País",
+            "Muziek": "Música"
         },
         "Blok 2": {
             "Ik werk": "Trabajo",
@@ -65,22 +64,21 @@ blok = st.selectbox("Kies je blok:", list(woordenlijsten[niveau].keys()))
 
 woordenlijst = woordenlijsten[niveau][blok]
 woorden = list(woordenlijst.items())
-random.shuffle(woorden)
 
 score = 0
 fouten = []
 voortgang = {}
 
-for spaans, nederlands in woorden:
-    antwoord = st.text_input(f"Wat betekent '{spaans}'?", key=spaans)
+for nederlands, spaans in woorden:
+    antwoord = st.text_input(f"Wat is het Spaanse woord voor '{nederlands}'?", key=nederlands)
     if antwoord:
-        if antwoord.strip().lower() == nederlands.lower():
+        if antwoord.strip().lower() == spaans.lower():
             st.success("✅ Juist!")
             score += 1
-            voortgang[spaans] = voortgang.get(spaans, 0) + 1
+            voortgang[nederlands] = voortgang.get(nederlands, 0) + 1
         else:
-            st.error(f"❌ Fout. Correct antwoord: {nederlands}")
-            fouten.append(spaans)
+            st.error(f"❌ Fout. Correct antwoord: {spaans}")
+            fouten.append(nederlands)
 
 # -------------------------------
 # Resultaat en aanbeveling
@@ -112,4 +110,3 @@ if len(voortgang) == len(woorden):
         st.markdown(f"⬆️ Volgende niveau: **{volgende_niveau}**, Blok 1")
     else:
         st.markdown("🏁 Je hebt alle blokken afgewerkt! Goed gedaan!")
-
